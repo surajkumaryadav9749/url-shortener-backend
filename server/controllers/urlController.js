@@ -10,13 +10,15 @@ const handleGenerateUrl = async (req, res) => {
   try {
     const shortId = nanoid(8);
     await URL.create({ shortId, redirectUrl: url, visitHistory: [] });
-    return res.status(201).json({
-      success: true,
-      message: "short url created successfully",
-      id: shortId,
+    return res.render("home", {
+      shortUrl: `http://localhost:5000/url/${shortId}`,
+      error: null,
     });
   } catch (error) {
-    return res.status(500).json({ error: error, success: false });
+    return res.status(500).render("home", {
+      shortUrl: null,
+      error: error,
+    });
   }
 };
 
